@@ -2,101 +2,246 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#eef0ec">
 <title>Caderno de Provas – Imperatriz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,700;1,6..72,400&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f6f2e9;--paper:#fffdf8;--ink:#1d1b16;--mute:#6b665a;--line:#ddd5c3;--acc:#7a1f1f;--acc2:#1f4d7a;--ok:#1d7a3c;--bad:#b3261e;--sel:#efe6cf}
-:root[data-theme=dark]{--bg:#16140f;--paper:#1f1c15;--ink:#ece6d6;--mute:#a59f8e;--line:#3a3629;--acc:#e0877f;--acc2:#8fb8e6;--ok:#6fd08c;--bad:#ff8a80;--sel:#2c2819}
+:root{
+  --paper:#eef0ec;--sheet:#fbfcfa;--ink:#111a22;--mute:#5a6670;--line:#d3d8d2;--line2:#bfc6bf;
+  --pen:#2436c9;--pen-soft:#e3e7fb;--hl:#f6e27a;--ok:#0e7a48;--ok-soft:#dcf1e5;--bad:#b8261c;--bad-soft:#f8e1de;
+  --serif:"Newsreader",Georgia,serif;--sans:"Schibsted Grotesk",system-ui,sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+:root[data-theme=dark]{
+  --paper:#0f151a;--sheet:#172027;--ink:#e8ede9;--mute:#97a3ab;--line:#2a363f;--line2:#3b4953;
+  --pen:#8e9cff;--pen-soft:#212a55;--hl:#e8d36a;--ok:#5fd394;--ok-soft:#133526;--bad:#ff8b80;--bad-soft:#3d1c19;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
-header{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:2px solid var(--acc);display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px 14px}
-header h1{font-size:18px;margin:0 auto 0 0;color:var(--acc)}
-nav button,.btn{font:600 14px system-ui,sans-serif;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:8px 12px;border-radius:6px;cursor:pointer}
-nav button.on,.btn.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
-main{max-width:880px;margin:0 auto;padding:14px 16px 80px}
-.aviso{font:13px system-ui,sans-serif;background:var(--sel);border-left:4px solid var(--acc);padding:10px 12px;margin:10px 0;border-radius:4px;color:var(--mute)}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.card{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:16px;cursor:pointer}
-.card:hover{border-color:var(--acc)}
-.card h3{margin:0 0 4px;color:var(--acc)}.card small{font:13px system-ui;color:var(--mute)}
-.q{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:16px;margin:14px 0}
-.meta{font:12px system-ui,sans-serif;color:var(--mute);margin-bottom:8px}
-.texto{background:var(--bg);border-left:3px solid var(--acc2);padding:10px 14px;margin:8px 0 12px;white-space:pre-wrap;font-size:16px}
-.enun{white-space:pre-wrap;margin-bottom:10px}
-.alt{display:flex;gap:10px;border:1px solid var(--line);border-radius:6px;padding:9px 11px;margin:6px 0;cursor:pointer}
-.alt:hover{background:var(--sel)}.alt b{min-width:20px}
-.alt.sel{background:var(--sel);border-color:var(--acc2)}.alt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,transparent)}.alt.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 15%,transparent)}
-.com{font-size:15px;border-top:1px dashed var(--line);margin-top:10px;padding-top:8px}.com small{display:block;color:var(--mute);font:12px system-ui;margin-top:6px}
-select,input{font:15px system-ui;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);max-width:100%}
-.filtros{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
-table{border-collapse:collapse;width:100%;font:14px system-ui}td,th{border-bottom:1px solid var(--line);padding:6px;text-align:left}
-.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ok)}
-#timer{position:fixed;right:10px;bottom:10px;background:var(--acc);color:#fff;font:700 15px system-ui;padding:8px 12px;border-radius:8px;z-index:6}
-.cartao{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px}.cartao button{padding:8px 0}.cartao .feita{background:var(--sel);border-color:var(--acc2)}
+html{-webkit-text-size-adjust:100%;scrollbar-color:var(--line2) transparent}
+::selection{background:var(--hl);color:#111a22}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 var(--serif);
+  background-image:linear-gradient(color-mix(in srgb,var(--line) 45%,transparent) 1px,transparent 1px);background-size:100% 32px;
+  min-height:100vh;padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+:focus-visible{outline:3px solid var(--pen);outline-offset:2px;border-radius:6px}
+button{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--serif);text-wrap:balance;margin:0}
+svg.i{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* topo */
+header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--sheet) 92%,transparent);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line2);display:flex;align-items:center;gap:12px;padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top))}
+.marca{margin-right:auto;line-height:1.1}
+.marca b{display:block;font:700 21px/1 var(--serif);letter-spacing:-.01em}
+.marca span{font:500 12.5px var(--sans);color:var(--mute);letter-spacing:.01em}
+#tema{width:40px;height:40px;border:1px solid var(--line2);background:var(--sheet);border-radius:50%;display:grid;place-items:center;cursor:pointer}
+#tema:hover{border-color:var(--pen)}
+
+/* navegação: barra inferior no celular, topo no desktop */
+nav{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;background:var(--sheet);border-top:1px solid var(--line2);
+  padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;border:0;background:none;padding:7px 2px;border-radius:10px;
+  font:600 11.5px var(--sans);color:var(--mute);cursor:pointer;min-height:52px}
+nav button.on{color:var(--pen);background:var(--pen-soft)}
+nav button:hover:not(.on){color:var(--ink)}
+@media(min-width:820px){
+  body{padding-bottom:60px}
+  nav{position:fixed;top:0;bottom:auto;left:auto;right:76px;z-index:8;border:0;background:none;padding:12px 0 0;gap:2px;width:auto}
+  nav button{flex-direction:row;gap:8px;font-size:14.5px;padding:9px 14px;min-height:0}
+  header{padding:12px 28px}
+}
+
+main{max-width:760px;margin:0 auto;padding:26px 18px 40px}
+@media(min-width:820px){main{padding-top:44px}}
+.titulo{font-size:clamp(30px,6.2vw,46px);line-height:1.05;letter-spacing:-.025em;font-weight:700;margin:6px 0 8px}
+.sub{font:400 16px/1.5 var(--sans);color:var(--mute);margin:0 0 26px;max-width:52ch}
+h3.sec{font:700 17px var(--sans);margin:34px 0 10px}
+
+/* cargos */
+.cargos{border-top:1px solid var(--ink)}
+.cargo{display:flex;align-items:center;gap:16px;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line2);
+  padding:18px 4px;cursor:pointer;transition:background .2s,padding .3s var(--ease)}
+.cargo:hover{background:var(--sheet);padding-left:14px}
+.bolha{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);flex:none;display:grid;place-items:center;transition:background .25s var(--ease),border-color .25s}
+.cargo.sel .bolha{background:var(--ink)}
+.cargo.sel .bolha::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--hl)}
+.cargo .n{font:600 22px/1.15 var(--serif);flex:1;letter-spacing:-.01em}
+.cargo .cnt{font:500 14px var(--sans);color:var(--mute);white-space:nowrap}
+.todos{margin-top:18px}
+
+/* botões */
+.btn{font:600 15px var(--sans);border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);padding:11px 18px;border-radius:999px;cursor:pointer;
+  transition:transform .2s var(--ease),background .2s,color .2s;min-height:44px}
+.btn:hover{background:var(--ink);color:var(--sheet)}
+.btn:active{transform:scale(.97)}
+.btn.pri{background:var(--pen);border-color:var(--pen);color:#fff}
+.btn.pri:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.btn.sutil{border-color:var(--line2);color:var(--mute)}
+.acoes{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0}
+
+/* aviso */
+.aviso{font:400 13px/1.5 var(--sans);color:var(--mute);margin:40px 0 0;padding-top:14px;border-top:1px solid var(--line2);max-width:62ch}
+.aviso b{color:var(--ink);font-weight:600}
+
+/* filtros */
+.filtros{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:0 0 8px}
+.filtros .btn{grid-column:1/-1}
+@media(min-width:620px){.filtros{grid-template-columns:repeat(4,1fr)}.filtros .campo:first-child{grid-column:span 2}.filtros .btn{grid-column:auto}}
+.campo{display:flex;flex-direction:column;gap:5px;min-width:0}
+.campo span{font:600 12.5px var(--sans);color:var(--mute)}
+select{font:500 15px var(--sans);min-height:44px;padding:0 34px 0 12px;border:1.5px solid var(--line2);border-radius:10px;background:var(--sheet) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='m1 1 5 5 5-5'/%3E%3C/svg%3E") no-repeat right 12px center;color:var(--ink);appearance:none;width:100%;text-overflow:ellipsis}
+select:hover{border-color:var(--pen)}
+
+/* questão */
+.q{background:var(--sheet);border:1px solid var(--line2);border-radius:14px;padding:20px 18px 18px;margin:18px 0;box-shadow:0 1px 0 var(--line),0 10px 24px -16px rgba(17,26,34,.35)}
+@media(min-width:620px){.q{padding:26px 28px 24px}}
+.qtop{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+.qn{font:700 34px/1 var(--serif);letter-spacing:-.03em;font-variant-numeric:lining-nums}
+.meta{font:500 12.5px/1.4 var(--sans);color:var(--mute);flex:1}
+.niv{display:inline-flex;gap:2px;vertical-align:middle;margin-right:6px}
+.niv i{width:4px;height:11px;border-radius:2px;background:var(--line2)}
+.niv i.on{background:var(--pen)}
+.texto{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:6px 0 16px;white-space:pre-wrap;font-size:16.5px;line-height:1.65;max-width:68ch}
+.enun{white-space:pre-wrap;margin:0 0 16px;font-size:18.5px;line-height:1.55;max-width:68ch}
+.alt{display:flex;gap:14px;align-items:flex-start;border:1.5px solid var(--line);border-radius:12px;padding:11px 14px 11px 11px;margin:8px 0;cursor:pointer;
+  transition:border-color .2s,background .2s;font-size:17px;line-height:1.45}
+.alt:hover{border-color:var(--pen);background:var(--pen-soft)}
+.alt .b{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);flex:none;display:grid;place-items:center;font:700 13px var(--sans);
+  margin-top:-1px;transition:background .25s var(--ease),color .25s,border-color .25s,transform .35s var(--ease)}
+.alt.sel{border-color:var(--pen);background:var(--pen-soft)}
+.alt.sel .b{background:var(--ink);color:var(--sheet);transform:scale(1.08)}
+.alt.ok{border-color:var(--ok);background:var(--ok-soft)}
+.alt.ok .b{background:var(--ok);border-color:var(--ok);color:#fff;transform:scale(1.08)}
+.alt.no{border-color:var(--bad);background:var(--bad-soft)}
+.alt.no .b{background:var(--bad);border-color:var(--bad);color:#fff;transform:scale(1.08)}
+.q[data-done] .alt,.q.fechada .alt{cursor:default}
+.q[data-done] .alt:hover:not(.ok):not(.no),.q.fechada .alt:hover:not(.ok):not(.no):not(.sel){background:none;border-color:var(--line)}
+.com{font:400 16px/1.6 var(--serif);margin-top:16px;padding:14px 16px;background:var(--paper);border-radius:10px;max-width:68ch}
+.com .g{font:700 14px var(--sans);display:block;margin-bottom:4px}
+.com.acertou .g{color:var(--ok)}.com.errou .g{color:var(--bad)}
+.com small{display:block;color:var(--mute);font:400 12.5px/1.4 var(--sans);margin-top:10px}
+
+/* simulado */
+.cartao{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:8px;margin:12px 0 4px;padding:14px;background:var(--sheet);border:1px solid var(--line2);border-radius:14px}
+.cartao button{aspect-ratio:1;border-radius:50%;border:2px solid var(--ink);background:none;font:700 12.5px var(--sans);cursor:pointer;display:grid;place-items:center;
+  transition:background .25s var(--ease),color .25s}
+.cartao button:hover{border-color:var(--pen);color:var(--pen)}
+.cartao button.feita{background:var(--ink);color:var(--sheet)}
+#timer{position:fixed;right:14px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:7;background:var(--ink);color:var(--sheet);font:700 15px var(--sans);
+  font-variant-numeric:tabular-nums;padding:9px 16px;border-radius:999px;box-shadow:0 6px 18px -4px rgba(0,0,0,.45)}
+@media(min-width:820px){#timer{bottom:20px;right:24px}}
+
+/* listas e barras */
+.lista{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
+.lista li{display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:center;padding:13px 2px;border-bottom:1px solid var(--line2);font:400 16px/1.35 var(--sans)}
+.lista li .d{font-weight:600}.lista li small{color:var(--mute);font-size:13px;display:block}
+.lista .v{font:700 16px var(--sans);font-variant-numeric:tabular-nums;text-align:right}
+.bar{grid-column:1/-1;height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok);border-radius:3px;transform-origin:left;animation:cresce .9s var(--ease) both}
+.bar i.baixo{background:var(--bad)}.bar i.meio{background:var(--hl)}
+@keyframes cresce{from{transform:scaleX(0)}}
+.nota{font:700 clamp(64px,16vw,110px)/.95 var(--serif);letter-spacing:-.04em;font-variant-numeric:lining-nums}
+.nota small{font:500 clamp(18px,4vw,26px) var(--sans);color:var(--mute);letter-spacing:0;margin-left:10px}
+.vazio{font:400 16px/1.5 var(--sans);color:var(--mute);padding:28px 0}
+
+/* entrada da página inicial (único momento coreografado) */
+@keyframes entra{from{opacity:0;transform:translateY(14px)}}
+.cargos .cargo{animation:entra .7s var(--ease) both}
+.cargos .cargo:nth-child(2){animation-delay:.07s}.cargos .cargo:nth-child(3){animation-delay:.14s}
+.cargos .cargo:nth-child(4){animation-delay:.21s}.cargos .cargo:nth-child(5){animation-delay:.28s}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{header,nav,#timer{display:none}body{background:#fff}}
 </style>
 </head>
 <body>
-<header><h1>📘 Caderno de Provas · Imperatriz‑MA</h1>
-<nav><button data-v="inicio">Início</button><button data-v="praticar">Praticar</button><button data-v="simulado">Simulado</button><button data-v="desempenho">Desempenho</button><button data-v="banco">Banco</button><button id="tema" title="Tema">◐</button></nav></header>
+<header>
+  <div class="marca"><b>Caderno de Provas</b><span>Imperatriz · Maranhão</span></div>
+  <button id="tema" title="Alternar tema claro e escuro" aria-label="Alternar tema"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4v16" /><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button>
+</header>
+<nav aria-label="Seções">
+    <button data-v="inicio"><svg class="i" viewBox="0 0 24 24"><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg>Início</button>
+    <button data-v="praticar"><svg class="i" viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.1 2.1 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></svg>Praticar</button>
+    <button data-v="simulado"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="13" r="7"/><path d="M12 9v4l2.5 2M9.5 3h5"/></svg>Simulado</button>
+    <button data-v="desempenho"><svg class="i" viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>Desempenho</button>
+    <button data-v="banco"><svg class="i" viewBox="0 0 24 24"><path d="M5 5a2 2 0 0 1 2-2h11v16H7a2 2 0 0 0-2 2z"/><path d="M5 19V5M9 7h5"/></svg>Banco</button>
+</nav>
 <main id="app"></main>
 <script>
 const CARGOS={RAD:"Técnico em Radiologia",FIS:"Fisioterapeuta",PSI:"Psicólogo",GMI:"Guarda Municipal (GMI)",TRA:"Agente de Trânsito"};
 const DISCS={LP:"Língua Portuguesa",MAT:"Matemática e Raciocínio Lógico",INF:"Noções de Informática",HG:"História e Geografia de Imperatriz",RAD:"Específicas – Radiologia",FIS:"Específicas – Fisioterapia",PSI:"Específicas – Psicologia",GMI:"Específicas – Guarda Municipal",TRA:"Específicas – Agente de Trânsito"};
 // Estrutura baseada no edital 2019 (Anexo III); conferir no edital novo.
 const ESTR={RAD:{LP:10,MAT:9,INF:5,HG:6,RAD:30},FIS:{LP:15,INF:9,HG:6,FIS:30},PSI:{LP:15,INF:9,HG:6,PSI:30},GMI:{LP:15,MAT:5,INF:10,GMI:40},TRA:{LP:15,INF:9,HG:6,TRA:30}};
-const NIV={facil:"Fácil",medio:"Médio",dificil:"Difícil"},FMT={unica:"Alternativa única",afirmativas:"Afirmativas",vf:"V ou F",associacao:"Associação",excecao:"Incorreta/Exceto"};
-const AVISO='<div class="aviso">⚠️ Questões de <b>treino</b>, inspiradas no estilo da banca FSADU; não são provas oficiais. Legislação e dados locais mudam: confira sempre nas fontes oficiais (Planalto, IBGE, Prefeitura de Imperatriz) e no edital vigente.</div>';
+const NIV={facil:"Fácil",medio:"Médio",dificil:"Difícil"},NIVN={facil:1,medio:2,dificil:3},FMT={unica:"Alternativa única",afirmativas:"Afirmativas",vf:"V ou F",associacao:"Associação",excecao:"Incorreta/Exceto"};
+const AVISO='<p class="aviso"><b>Questões de treino</b>, inspiradas no estilo da banca FSADU. Não são provas oficiais. Legislação e dados locais mudam: confira nas fontes oficiais (Planalto, IBGE, Prefeitura de Imperatriz) e no edital vigente.</p>';
 let DB=null,T={},cargo=localStorage.getItem("cargo")||"",view="inicio",sim=null;
 const $=s=>document.querySelector(s),app=$("#app");
 const st=()=>{try{return JSON.parse(localStorage.getItem("hist")||"{}")}catch(e){return{}}};
-const save=(id,ok)=>{const h=st();h[id]=ok?1:0;localStorage.setItem("hist",JSON.stringify(h))};
+const save=(id,ok)=>{const h=st();h[id]=ok?1:0;try{localStorage.setItem("hist",JSON.stringify(h))}catch(e){}};
 const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 const pool=()=>DB.filter(q=>!cargo||q.cargos.includes(cargo));
-function qHTML(q,i,o={}){const L="ABCDE";let tb=q.texto_id?`<div class="texto">${esc(T[q.texto_id]||"")}</div>`:"";
- return `<div class="q" data-i="${i}"><div class="meta">${i+1}. ${DISCS[q.disciplina]} · ${esc(q.topico)} · ${NIV[q.nivel]} · ${FMT[q.formato]}</div>${tb}<div class="enun">${esc(q.enunciado)}</div>`+
- q.alternativas.map((a,k)=>`<div class="alt" data-k="${L[k]}"><b>${L[k].toLowerCase()})</b><span>${esc(a)}</span></div>`).join("")+`<div class="com" hidden></div></div>`}
-function reveal(box,q,pick){box.querySelectorAll(".alt").forEach(a=>{const k=a.dataset.k;if(k===q.gabarito)a.classList.add("ok");else if(k===pick)a.classList.add("no")});
- const c=box.querySelector(".com");c.hidden=false;c.innerHTML=`<b>Gabarito: ${q.gabarito}.</b> ${esc(q.comentario)}<small>Fonte: ${esc(q.fonte)} · confiança ${q.confianca}${q.confianca!=="alta"?" – conferir":""}</small>`}
-function nav(v){view=v;document.querySelectorAll("nav button[data-v]").forEach(b=>b.classList.toggle("on",b.dataset.v===v));({inicio,praticar,simulado,desempenho,banco})[v]();window.scrollTo(0,0)}
-function inicio(){app.innerHTML=AVISO+`<h2>Escolha o cargo</h2><div class="cards">`+Object.entries(CARGOS).map(([k,n])=>`<div class="card" data-c="${k}"><h3>${n}</h3><small>${pool_for(k)} questões${k===cargo?" · selecionado ✔":""}</small></div>`).join("")+`</div><p><button class="btn" id="todos">Ver todos os cargos</button></p>`;
- app.querySelectorAll(".card").forEach(c=>c.onclick=()=>{cargo=c.dataset.c;localStorage.setItem("cargo",cargo);nav("praticar")});$("#todos").onclick=()=>{cargo="";localStorage.removeItem("cargo");nav("praticar")}}
 const pool_for=k=>DB.filter(q=>q.cargos.includes(k)).length;
+const cor=p=>p>=70?"":p>=50?"meio":"baixo";
+const niv=n=>`<span class="niv" title="${NIV[n]}">${[1,2,3].map(x=>`<i class="${x<=NIVN[n]?"on":""}"></i>`).join("")}</span>`;
+function qHTML(q,i){const L="ABCDE";const tb=q.texto_id?`<div class="texto">${esc(T[q.texto_id]||"")}</div>`:"";
+ return `<article class="q" data-i="${i}"><div class="qtop"><span class="qn">${i+1}</span><div class="meta">${niv(q.nivel)}${NIV[q.nivel]} · ${FMT[q.formato]}<br>${DISCS[q.disciplina]} · ${esc(q.topico)}</div></div>${tb}<p class="enun">${esc(q.enunciado)}</p>`+
+ q.alternativas.map((a,k)=>`<div class="alt" role="button" tabindex="0" data-k="${L[k]}"><span class="b">${L[k]}</span><span>${esc(a)}</span></div>`).join("")+`<div class="com" hidden></div></article>`}
+function reveal(box,q,pick){box.querySelectorAll(".alt").forEach(a=>{const k=a.dataset.k;if(k===q.gabarito)a.classList.add("ok");else if(k===pick)a.classList.add("no")});
+ const c=box.querySelector(".com"),acertou=pick===q.gabarito;c.hidden=false;c.className="com "+(pick?(acertou?"acertou":"errou"):"");
+ c.innerHTML=`<span class="g">${pick?(acertou?"Você acertou.":"Você errou."):"Sem resposta."} Gabarito: ${q.gabarito}</span>${esc(q.comentario)}<small>Fonte: ${esc(q.fonte)} · confiança ${q.confianca}${q.confianca!=="alta"?" – conferir na fonte":""}</small>`}
+const ativa=(el,fn)=>{el.onclick=fn;el.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();fn()}}};
+function nav(v){view=v;document.querySelectorAll("nav button[data-v]").forEach(b=>{b.classList.toggle("on",b.dataset.v===v);b.toggleAttribute("aria-current",b.dataset.v===v)});({inicio,praticar,simulado,desempenho,banco})[v]();window.scrollTo(0,0)}
+function inicio(){app.innerHTML=`<h1 class="titulo">Qual prova você vai fazer?</h1><p class="sub">Escolha o cargo e treine com questões no estilo FSADU. Seu progresso fica só neste aparelho.</p><div class="cargos">`+
+ Object.entries(CARGOS).map(([k,n])=>`<button class="cargo ${k===cargo?"sel":""}" data-c="${k}"><span class="bolha"></span><span class="n">${n}</span><span class="cnt">${pool_for(k)} questões</span></button>`).join("")+`</div><div class="todos"><button class="btn sutil" id="todos">Ver questões de todos os cargos</button></div>`+AVISO;
+ app.querySelectorAll(".cargo").forEach(c=>c.onclick=()=>{cargo=c.dataset.c;try{localStorage.setItem("cargo",cargo)}catch(e){}nav("praticar")});
+ $("#todos").onclick=()=>{cargo="";try{localStorage.removeItem("cargo")}catch(e){}nav("praticar")}}
 function praticar(){const P=pool(),ds=[...new Set(P.map(q=>q.disciplina))];
- app.innerHTML=AVISO+`<h2>Praticar ${cargo?"· "+CARGOS[cargo]:""}</h2><div class="filtros"><select id="fd"><option value="">Todas as disciplinas</option>${ds.map(d=>`<option value="${d}">${DISCS[d]}</option>`).join("")}</select><select id="ft"><option value="">Todos os tópicos</option></select><select id="fn"><option value="">Todos os níveis</option>${Object.entries(NIV).map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select><select id="ff"><option value="">Todos os formatos</option>${Object.entries(FMT).map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select><button class="btn pri" id="go">Sortear 10</button></div><div id="lista"></div>`;
- const upd=()=>{const d=$("#fd").value;$("#ft").innerHTML='<option value="">Todos os tópicos</option>'+[...new Set(P.filter(q=>!d||q.disciplina===d).map(q=>q.topico))].sort().map(t=>`<option>${esc(t)}</option>`).join("")};
+ app.innerHTML=`<h1 class="titulo">Praticar</h1><p class="sub">${cargo?CARGOS[cargo]+" · ":""}${P.length} questões disponíveis.</p><div class="filtros">
+ <label class="campo"><span>Disciplina</span><select id="fd"><option value="">Todas</option>${ds.map(d=>`<option value="${d}">${DISCS[d]}</option>`).join("")}</select></label>
+ <label class="campo"><span>Tópico</span><select id="ft"><option value="">Todos</option></select></label>
+ <label class="campo"><span>Nível</span><select id="fn"><option value="">Todos</option>${Object.entries(NIV).map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select></label>
+ <label class="campo"><span>Formato</span><select id="ff"><option value="">Todos</option>${Object.entries(FMT).map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select></label>
+ <button class="btn pri" id="go">Sortear 10 questões</button></div><div id="lista"></div>`+AVISO;
+ const upd=()=>{const d=$("#fd").value;$("#ft").innerHTML='<option value="">Todos</option>'+[...new Set(P.filter(q=>!d||q.disciplina===d).map(q=>q.topico))].sort().map(t=>`<option>${esc(t)}</option>`).join("")};
  upd();$("#fd").onchange=()=>{upd()};
  $("#go").onclick=()=>{const d=$("#fd").value,t=$("#ft").value,n=$("#fn").value,f=$("#ff").value;let L=P.filter(q=>(!d||q.disciplina===d)&&(!t||q.topico===t)&&(!n||q.nivel===n)&&(!f||q.formato===f));
-  if(!L.length){$("#lista").innerHTML="<p>Nenhuma questão com esse filtro.</p>";return}
+  if(!L.length){$("#lista").innerHTML='<p class="vazio">Nenhuma questão com esse filtro. Afrouxe um dos filtros e sorteie de novo.</p>';return}
   // questões de LP com o mesmo texto ficam juntas
   let pick=shuf(L).slice(0,10);const tid=pick.find(q=>q.texto_id);if(tid&&d==="LP"){pick=L.filter(q=>q.texto_id===tid.texto_id).slice(0,8)}
   $("#lista").innerHTML=pick.map((q,i)=>qHTML(q,i)).join("");
-  $("#lista").querySelectorAll(".q").forEach((b,i)=>{const q=pick[i];b.querySelectorAll(".alt").forEach(a=>a.onclick=()=>{if(b.dataset.done)return;b.dataset.done=1;save(q.id,a.dataset.k===q.gabarito);reveal(b,q,a.dataset.k)})})}}
-function simulado(){if(!cargo){app.innerHTML=AVISO+"<p>Escolha um cargo no Início para montar o simulado.</p>";return}
+  $("#lista").querySelectorAll(".q").forEach((b,i)=>{const q=pick[i];b.querySelectorAll(".alt").forEach(a=>ativa(a,()=>{if(b.dataset.done)return;b.dataset.done=1;save(q.id,a.dataset.k===q.gabarito);reveal(b,q,a.dataset.k)}))});
+  $("#lista").scrollIntoView({behavior:"smooth"})}}
+function simulado(){if(!cargo){app.innerHTML=`<h1 class="titulo">Simulado</h1><p class="sub">Escolha um cargo no Início para montar o simulado com a estrutura da prova.</p><button class="btn pri" id="ir">Escolher cargo</button>`+AVISO;$("#ir").onclick=()=>nav("inicio");return}
  if(sim){return runSim()}
- const e=ESTR[cargo];app.innerHTML=AVISO+`<h2>Simulado · ${CARGOS[cargo]}</h2><p>Estrutura (edital 2019, conferir o edital novo):</p><table>`+Object.entries(e).map(([d,n])=>{const have=DB.filter(q=>q.disciplina===d&&q.cargos.includes(cargo)).length;return `<tr><td>${DISCS[d]}</td><td>${n} questões</td><td>${have<n?"banco tem só "+have:"ok"}</td></tr>`}).join("")+`</table><p>Tempo: 4 horas.</p><button class="btn pri" id="ini">Começar simulado</button>`;
+ const e=ESTR[cargo];app.innerHTML=`<h1 class="titulo">Simulado</h1><p class="sub">${CARGOS[cargo]} · 4 horas · estrutura do edital 2019 (confira o edital novo).</p><ul class="lista">`+Object.entries(e).map(([d,n])=>{const have=DB.filter(q=>q.disciplina===d&&q.cargos.includes(cargo)).length;return `<li><span class="d">${DISCS[d]}${have<n?`<small>O banco tem só ${have} de ${n} questões.</small>`:""}</span><span class="v">${n} questões</span></li>`}).join("")+`</ul><div class="acoes"><button class="btn pri" id="ini">Começar simulado</button></div>`+AVISO;
  $("#ini").onclick=()=>{let L=[];for(const [d,n] of Object.entries(e)){const P=DB.filter(q=>q.disciplina===d&&q.cargos.includes(cargo));if(d==="LP"){const ids=shuf([...new Set(P.map(q=>q.texto_id))]);let g=[];for(const id of ids){g=g.concat(P.filter(q=>q.texto_id===id));if(g.length>=n)break}L=L.concat(g.slice(0,n))}else L=L.concat(shuf(P).slice(0,n))}
   sim={L,ans:{},fim:Date.now()+4*3600e3,done:false};runSim()}}
 function runSim(){const s=sim;if(s.done)return result();
- app.innerHTML=AVISO+`<h2>Simulado · ${CARGOS[cargo]}</h2><div class="cartao" id="car"></div><div id="qs"></div><p><button class="btn pri" id="fim">Finalizar</button> <button class="btn" id="canc">Cancelar</button></p><div id="timer"></div>`;
+ app.innerHTML=`<h1 class="titulo">Simulado</h1><p class="sub">${CARGOS[cargo]} · toque no número para ir à questão.</p><div class="cartao" id="car"></div><div id="qs"></div><div class="acoes"><button class="btn pri" id="fim">Finalizar simulado</button><button class="btn sutil" id="canc">Cancelar</button></div><div id="timer" role="timer"></div>`;
  $("#qs").innerHTML=s.L.map((q,i)=>qHTML(q,i)).join("");
- const car=()=>{$("#car").innerHTML=s.L.map((q,i)=>`<button class="btn ${s.ans[i]?"feita":""}" data-i="${i}">${i+1}</button>`).join("");$("#car").querySelectorAll("button").forEach(b=>b.onclick=()=>$("#qs").children[b.dataset.i].scrollIntoView({behavior:"smooth"}))};car();
- $("#qs").querySelectorAll(".q").forEach((b,i)=>b.querySelectorAll(".alt").forEach(a=>a.onclick=()=>{s.ans[i]=a.dataset.k;b.querySelectorAll(".alt").forEach(x=>x.classList.toggle("sel",x===a));car()}));
- const tk=()=>{if(view!=="simulado"||!sim){return}const r=Math.max(0,s.fim-Date.now());$("#timer").textContent="⏱ "+[r/3600e3|0,(r/6e4|0)%60,(r/1e3|0)%60].map(x=>String(x).padStart(2,"0")).join(":");if(!r){s.done=true;result()}else setTimeout(tk,1000)};tk();
+ const car=()=>{$("#car").innerHTML=s.L.map((q,i)=>`<button class="${s.ans[i]?"feita":""}" data-i="${i}" aria-label="Questão ${i+1}${s.ans[i]?", respondida":""}">${i+1}</button>`).join("");$("#car").querySelectorAll("button").forEach(b=>b.onclick=()=>$("#qs").children[b.dataset.i].scrollIntoView({behavior:"smooth"}))};car();
+ $("#qs").querySelectorAll(".q").forEach((b,i)=>b.querySelectorAll(".alt").forEach(a=>ativa(a,()=>{s.ans[i]=a.dataset.k;b.querySelectorAll(".alt").forEach(x=>x.classList.toggle("sel",x===a));car()})));
+ const tk=()=>{if(view!=="simulado"||!sim){return}const r=Math.max(0,s.fim-Date.now());$("#timer").textContent=[r/3600e3|0,(r/6e4|0)%60,(r/1e3|0)%60].map(x=>String(x).padStart(2,"0")).join(":");if(!r){s.done=true;result()}else setTimeout(tk,1000)};tk();
  $("#fim").onclick=()=>{if(confirm("Finalizar o simulado?")){s.done=true;result()}};$("#canc").onclick=()=>{if(confirm("Cancelar e perder as respostas?")){sim=null;simulado()}}}
 function result(){const s=sim;let ok=0;const por={};s.L.forEach((q,i)=>{const c=s.ans[i]===q.gabarito;if(c)ok++;if(s.ans[i])save(q.id,c);por[q.disciplina]=por[q.disciplina]||[0,0];por[q.disciplina][1]++;if(c)por[q.disciplina][0]++});
- app.innerHTML=AVISO+`<h2>Resultado</h2><p style="font-size:22px"><b>${ok}</b> de ${s.L.length} (${(100*ok/s.L.length).toFixed(0)}%)</p><table>`+Object.entries(por).map(([d,v])=>`<tr><td>${DISCS[d]}</td><td>${v[0]}/${v[1]}</td></tr>`).join("")+`</table><h3>Revisão</h3><div id="rev"></div><button class="btn pri" id="novo">Novo simulado</button>`;
- $("#rev").innerHTML=s.L.map((q,i)=>qHTML(q,i)).join("");$("#rev").querySelectorAll(".q").forEach((b,i)=>{reveal(b,s.L[i],s.ans[i])});$("#novo").onclick=()=>{sim=null;simulado()}}
+ const pc=Math.round(100*ok/s.L.length);
+ app.innerHTML=`<h1 class="titulo">Resultado</h1><p class="nota">${ok}<small>de ${s.L.length} · ${pc}%</small></p><h3 class="sec">Por disciplina</h3><ul class="lista">`+Object.entries(por).map(([d,v])=>{const p=100*v[0]/v[1];return `<li><span class="d">${DISCS[d]}</span><span class="v">${v[0]}/${v[1]}</span><div class="bar"><i class="${cor(p)}" style="width:${p}%"></i></div></li>`}).join("")+`</ul><h3 class="sec">Revisão das questões</h3><div id="rev"></div><div class="acoes"><button class="btn pri" id="novo">Novo simulado</button></div>`;
+ $("#rev").innerHTML=s.L.map((q,i)=>qHTML(q,i)).join("");$("#rev").querySelectorAll(".q").forEach((b,i)=>{b.classList.add("fechada");reveal(b,s.L[i],s.ans[i])});$("#novo").onclick=()=>{sim=null;simulado()}}
 function desempenho(){const h=st(),by={},tp={};DB.forEach(q=>{if(q.id in h){const a=by[q.disciplina]=by[q.disciplina]||[0,0];a[1]++;a[0]+=h[q.id];const k=q.disciplina+"|"+q.topico,b=tp[k]=tp[k]||[0,0];b[1]++;b[0]+=h[q.id]}});
- const row=(n,v)=>`<tr><td>${esc(n)}</td><td>${v[0]}/${v[1]}</td><td style="width:35%"><div class="bar"><i style="width:${100*v[0]/v[1]}%"></i></div></td></tr>`;
- app.innerHTML=AVISO+`<h2>Meu desempenho</h2><p>Salvo apenas neste navegador.</p><h3>Por disciplina</h3><table>${Object.entries(by).map(([d,v])=>row(DISCS[d],v)).join("")||"<tr><td>Nenhuma questão respondida ainda.</td></tr>"}</table><h3>Por tópico</h3><table>${Object.entries(tp).sort((a,b)=>a[1][0]/a[1][1]-b[1][0]/b[1][1]).map(([k,v])=>row(k.replace("|"," · "),v)).join("")}</table><p><button class="btn" id="zera">Apagar meu histórico</button></p>`;
- $("#zera").onclick=()=>{if(confirm("Apagar tudo?")){localStorage.removeItem("hist");desempenho()}}}
+ const row=(n,v)=>{const p=100*v[0]/v[1];return `<li><span class="d">${esc(n)}</span><span class="v">${v[0]}/${v[1]}</span><div class="bar"><i class="${cor(p)}" style="width:${p}%"></i></div></li>`};
+ const tem=Object.keys(by).length;
+ app.innerHTML=`<h1 class="titulo">Meu desempenho</h1><p class="sub">Salvo apenas neste navegador.</p>`+(tem?`<h3 class="sec">Por disciplina</h3><ul class="lista">${Object.entries(by).map(([d,v])=>row(DISCS[d],v)).join("")}</ul><h3 class="sec">Por tópico, do mais fraco ao mais forte</h3><ul class="lista">${Object.entries(tp).sort((a,b)=>a[1][0]/a[1][1]-b[1][0]/b[1][1]).map(([k,v])=>row(k.replace("|"," · "),v)).join("")}</ul><div class="acoes"><button class="btn sutil" id="zera">Apagar meu histórico</button></div>`:`<p class="vazio">Você ainda não respondeu nenhuma questão. Vá em Praticar e sorteie as primeiras.</p><button class="btn pri" id="pp">Praticar agora</button>`)+AVISO;
+ const z=$("#zera");if(z)z.onclick=()=>{if(confirm("Apagar todo o histórico?")){try{localStorage.removeItem("hist")}catch(e){}desempenho()}};const pp=$("#pp");if(pp)pp.onclick=()=>nav("praticar")}
 function banco(){const c={};DB.forEach(q=>{const k=q.disciplina+"|"+q.topico;c[k]=(c[k]||0)+1});
- app.innerHTML=AVISO+`<h2>Banco de questões · ${DB.length} no total</h2><table>`+Object.entries(c).sort().map(([k,v])=>`<tr><td>${DISCS[k.split("|")[0]]}</td><td>${esc(k.split("|")[1])}</td><td>${v}</td></tr>`).join("")+"</table>"}
+ app.innerHTML=`<h1 class="titulo">Banco de questões</h1><p class="sub">${DB.length} questões no total, por disciplina e tópico.</p><ul class="lista">`+Object.entries(c).sort().map(([k,v])=>`<li><span class="d">${esc(k.split("|")[1])}<small>${DISCS[k.split("|")[0]]}</small></span><span class="v">${v}</span></li>`).join("")+"</ul>"+AVISO}
 document.querySelectorAll("nav button[data-v]").forEach(b=>b.onclick=()=>nav(b.dataset.v));
-$("#tema").onclick=()=>{const d=document.documentElement.dataset.theme==="dark"?"light":"dark";document.documentElement.dataset.theme=d;try{localStorage.setItem("tema",d)}catch(e){}};
-document.documentElement.dataset.theme=localStorage.getItem("tema")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
-fetch("questoes.json").then(r=>r.json()).then(j=>{DB=j.questoes;T=j.textos;DB.forEach(q=>{if(q.texto_id&&!T[q.texto_id])T[q.texto_id]=""});nav("inicio")}).catch(e=>{app.innerHTML="<p>Erro ao carregar questões. Abra pelo link publicado (não direto do arquivo).</p>"});
+const meta=document.querySelector('meta[name=theme-color]');
+const tema=d=>{document.documentElement.dataset.theme=d;meta.content=d==="dark"?"#0f151a":"#eef0ec"};
+$("#tema").onclick=()=>{const d=document.documentElement.dataset.theme==="dark"?"light":"dark";tema(d);try{localStorage.setItem("tema",d)}catch(e){}};
+tema(localStorage.getItem("tema")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light"));
+fetch("questoes.json").then(r=>r.json()).then(j=>{DB=j.questoes;T=j.textos;DB.forEach(q=>{if(q.texto_id&&!T[q.texto_id])T[q.texto_id]=""});nav("inicio")}).catch(e=>{app.innerHTML='<p class="vazio">Não foi possível carregar as questões. Abra pelo link publicado, não direto pelo arquivo.</p>'});
 </script>
 </body>
 </html>
