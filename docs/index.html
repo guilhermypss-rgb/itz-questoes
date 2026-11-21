@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Caderno de Provas – Imperatriz</title>
+<style>
+:root{--bg:#f6f2e9;--paper:#fffdf8;--ink:#1d1b16;--mute:#6b665a;--line:#ddd5c3;--acc:#7a1f1f;--acc2:#1f4d7a;--ok:#1d7a3c;--bad:#b3261e;--sel:#efe6cf}
+:root[data-theme=dark]{--bg:#16140f;--paper:#1f1c15;--ink:#ece6d6;--mute:#a59f8e;--line:#3a3629;--acc:#e0877f;--acc2:#8fb8e6;--ok:#6fd08c;--bad:#ff8a80;--sel:#2c2819}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+header{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:2px solid var(--acc);display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px 14px}
+header h1{font-size:18px;margin:0 auto 0 0;color:var(--acc)}
+nav button,.btn{font:600 14px system-ui,sans-serif;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:8px 12px;border-radius:6px;cursor:pointer}
+nav button.on,.btn.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
+main{max-width:880px;margin:0 auto;padding:14px 16px 80px}
+.aviso{font:13px system-ui,sans-serif;background:var(--sel);border-left:4px solid var(--acc);padding:10px 12px;margin:10px 0;border-radius:4px;color:var(--mute)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:16px;cursor:pointer}
+.card:hover{border-color:var(--acc)}
+.card h3{margin:0 0 4px;color:var(--acc)}.card small{font:13px system-ui;color:var(--mute)}
+.q{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:16px;margin:14px 0}
+.meta{font:12px system-ui,sans-serif;color:var(--mute);margin-bottom:8px}
+.texto{background:var(--bg);border-left:3px solid var(--acc2);padding:10px 14px;margin:8px 0 12px;white-space:pre-wrap;font-size:16px}
+.enun{white-space:pre-wrap;margin-bottom:10px}
+.alt{display:flex;gap:10px;border:1px solid var(--line);border-radius:6px;padding:9px 11px;margin:6px 0;cursor:pointer}
+.alt:hover{background:var(--sel)}.alt b{min-width:20px}
+.alt.sel{background:var(--sel);border-color:var(--acc2)}.alt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,transparent)}.alt.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 15%,transparent)}
+.com{font-size:15px;border-top:1px dashed var(--line);margin-top:10px;padding-top:8px}.com small{display:block;color:var(--mute);font:12px system-ui;margin-top:6px}
+select,input{font:15px system-ui;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);max-width:100%}
+.filtros{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+table{border-collapse:collapse;width:100%;font:14px system-ui}td,th{border-bottom:1px solid var(--line);padding:6px;text-align:left}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ok)}
+#timer{position:fixed;right:10px;bottom:10px;background:var(--acc);color:#fff;font:700 15px system-ui;padding:8px 12px;border-radius:8px;z-index:6}
+.cartao{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px}.cartao button{padding:8px 0}.cartao .feita{background:var(--sel);border-color:var(--acc2)}
+</style>
+</head>
+<body>
+<header><h1>📘 Caderno de Provas · Imperatriz‑MA</h1>
+<nav><button data-v="inicio">Início</button><button data-v="praticar">Praticar</button><button data-v="simulado">Simulado</button><button data-v="desempenho">Desempenho</button><button data-v="banco">Banco</button><button id="tema" title="Tema">◐</button></nav></header>
+<main id="app"></main>
+<script>
+const CARGOS={RAD:"Técnico em Radiologia",FIS:"Fisioterapeuta",PSI:"Psicólogo",GMI:"Guarda Municipal (GMI)",TRA:"Agente de Trânsito"};
+const DISCS={LP:"Língua Portuguesa",MAT:"Matemática e Raciocínio Lógico",INF:"Noções de Informática",HG:"História e Geografia de Imperatriz",RAD:"Específicas – Radiologia",FIS:"Específicas – Fisioterapia",PSI:"Específicas – Psicologia",GMI:"Específicas – Guarda Municipal",TRA:"Específicas – Agente de Trânsito"};
+// Estrutura baseada no edital 2019 (Anexo III); conferir no edital novo.
+const ESTR={RAD:{LP:10,MAT:9,INF:5,HG:6,RAD:30},FIS:{LP:15,INF:9,HG:6,FIS:30},PSI:{LP:15,INF:9,HG:6,PSI:30},GMI:{LP:15,MAT:5,INF:10,GMI:40},TRA:{LP:15,INF:9,HG:6,TRA:30}};
+const NIV={facil:"Fácil",medio:"Médio",dificil:"Difícil"},FMT={unica:"Alternativa única",afirmativas:"Afirmativas",vf:"V ou F",associacao:"Associação",excecao:"Incorreta/Exceto"};
+const AVISO='<div class="aviso">⚠️ Questões de <b>treino</b>, inspiradas no estilo da banca FSADU; não são provas oficiais. Legislação e dados locais mudam: confira sempre nas fontes oficiais (Planalto, IBGE, Prefeitura de Imperatriz) e no edital vigente.</div>';
+let DB=null,T={},cargo=localStorage.getItem("cargo")||"",view="inicio",sim=null;
+const $=s=>document.querySelector(s),app=$("#app");
+const st=()=>{try{return JSON.parse(localStorage.getItem("hist")||"{}")}catch(e){return{}}};
+const save=(id,ok)=>{const h=st();h[id]=ok?1:0;localStorage.setItem("hist",JSON.stringify(h))};
+const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const pool=()=>DB.filter(q=>!cargo||q.cargos.includes(cargo));
+function qHTML(q,i,o={}){const L="ABCDE";let tb=q.texto_id?`<div class="texto">${esc(T[q.texto_id]||"")}</div>`:"";
+ return `<div class="q" data-i="${i}"><div class="meta">${i+1}. ${DISCS[q.disciplina]} · ${esc(q.topico)} · ${NIV[q.nivel]} · ${FMT[q.formato]}</div>${tb}<div class="enun">${esc(q.enunciado)}</div>`+
+ q.alternativas.map((a,k)=>`<div class="alt" data-k="${L[k]}"><b>${L[k].toLowerCase()})</b><span>${esc(a)}</span></div>`).join("")+`<div class="com" hidden></div></div>`}
+function reveal(box,q,pick){box.querySelectorAll(".alt").forEach(a=>{const k=a.dataset.k;if(k===q.gabarito)a.classList.add("ok");else if(k===pick)a.classList.add("no")});
+ const c=box.querySelector(".com");c.hidden=false;c.innerHTML=`<b>Gabarito: ${q.gabarito}.</b> ${esc(q.comentario)}<small>Fonte: ${esc(q.fonte)} · confiança ${q.confianca}${q.confianca!=="alta"?" – conferir":""}</small>`}
+function nav(v){view=v;document.querySelectorAll("nav button[data-v]").forEach(b=>b.classList.toggle("on",b.dataset.v===v));({inicio,praticar,simulado,desempenho,banco})[v]();window.scrollTo(0,0)}
+function inicio(){app.innerHTML=AVISO+`<h2>Escolha o cargo</h2><div class="cards">`+Object.entries(CARGOS).map(([k,n])=>`<div class="card" data-c="${k}"><h3>${n}</h3><small>${pool_for(k)} questões${k===cargo?" · selecionado ✔":""}</small></div>`).join("")+`</div><p><button class="btn" id="todos">Ver todos os cargos</button></p>`;
+ app.querySelectorAll(".card").forEach(c=>c.onclick=()=>{cargo=c.dataset.c;localStorage.setItem("cargo",cargo);nav("praticar")});$("#todos").onclick=()=>{cargo="";localStorage.removeItem("cargo");nav("praticar")}}
+const pool_for=k=>DB.filter(q=>q.cargos.includes(k)).length;
+function praticar(){const P=pool(),ds=[...new Set(P.map(q=>q.disciplina))];
+ app.innerHTML=AVISO+`<h2>Praticar ${cargo?"· "+CARGOS[cargo]:""}</h2><div class="filtros"><select id="fd"><option value="">Todas as disciplinas</option>${ds.map(d=>`<option value="${d}">${DISCS[d]}</option>`).join("")}</select><select id="ft"><option value="">Todos os tópicos</option></select><select id="fn"><option value="">Todos os níveis</option>${Object.entries(NIV).map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select><select id="ff"><option value="">Todos os formatos</option>${Object.entries(FMT).map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select><button class="btn pri" id="go">Sortear 10</button></div><div id="lista"></div>`;
+ const upd=()=>{const d=$("#fd").value;$("#ft").innerHTML='<option value="">Todos os tópicos</option>'+[...new Set(P.filter(q=>!d||q.disciplina===d).map(q=>q.topico))].sort().map(t=>`<option>${esc(t)}</option>`).join("")};
+ upd();$("#fd").onchange=()=>{upd()};
+ $("#go").onclick=()=>{const d=$("#fd").value,t=$("#ft").value,n=$("#fn").value,f=$("#ff").value;let L=P.filter(q=>(!d||q.disciplina===d)&&(!t||q.topico===t)&&(!n||q.nivel===n)&&(!f||q.formato===f));
+  if(!L.length){$("#lista").innerHTML="<p>Nenhuma questão com esse filtro.</p>";return}
+  // questões de LP com o mesmo texto ficam juntas
+  let pick=shuf(L).slice(0,10);const tid=pick.find(q=>q.texto_id);if(tid&&d==="LP"){pick=L.filter(q=>q.texto_id===tid.texto_id).slice(0,8)}
+  $("#lista").innerHTML=pick.map((q,i)=>qHTML(q,i)).join("");
+  $("#lista").querySelectorAll(".q").forEach((b,i)=>{const q=pick[i];b.querySelectorAll(".alt").forEach(a=>a.onclick=()=>{if(b.dataset.done)return;b.dataset.done=1;save(q.id,a.dataset.k===q.gabarito);reveal(b,q,a.dataset.k)})})}}
+function simulado(){if(!cargo){app.innerHTML=AVISO+"<p>Escolha um cargo no Início para montar o simulado.</p>";return}
+ if(sim){return runSim()}
+ const e=ESTR[cargo];app.innerHTML=AVISO+`<h2>Simulado · ${CARGOS[cargo]}</h2><p>Estrutura (edital 2019, conferir o edital novo):</p><table>`+Object.entries(e).map(([d,n])=>{const have=DB.filter(q=>q.disciplina===d&&q.cargos.includes(cargo)).length;return `<tr><td>${DISCS[d]}</td><td>${n} questões</td><td>${have<n?"banco tem só "+have:"ok"}</td></tr>`}).join("")+`</table><p>Tempo: 4 horas.</p><button class="btn pri" id="ini">Começar simulado</button>`;
+ $("#ini").onclick=()=>{let L=[];for(const [d,n] of Object.entries(e)){const P=DB.filter(q=>q.disciplina===d&&q.cargos.includes(cargo));if(d==="LP"){const ids=shuf([...new Set(P.map(q=>q.texto_id))]);let g=[];for(const id of ids){g=g.concat(P.filter(q=>q.texto_id===id));if(g.length>=n)break}L=L.concat(g.slice(0,n))}else L=L.concat(shuf(P).slice(0,n))}
+  sim={L,ans:{},fim:Date.now()+4*3600e3,done:false};runSim()}}
+function runSim(){const s=sim;if(s.done)return result();
+ app.innerHTML=AVISO+`<h2>Simulado · ${CARGOS[cargo]}</h2><div class="cartao" id="car"></div><div id="qs"></div><p><button class="btn pri" id="fim">Finalizar</button> <button class="btn" id="canc">Cancelar</button></p><div id="timer"></div>`;
+ $("#qs").innerHTML=s.L.map((q,i)=>qHTML(q,i)).join("");
+ const car=()=>{$("#car").innerHTML=s.L.map((q,i)=>`<button class="btn ${s.ans[i]?"feita":""}" data-i="${i}">${i+1}</button>`).join("");$("#car").querySelectorAll("button").forEach(b=>b.onclick=()=>$("#qs").children[b.dataset.i].scrollIntoView({behavior:"smooth"}))};car();
+ $("#qs").querySelectorAll(".q").forEach((b,i)=>b.querySelectorAll(".alt").forEach(a=>a.onclick=()=>{s.ans[i]=a.dataset.k;b.querySelectorAll(".alt").forEach(x=>x.classList.toggle("sel",x===a));car()}));
+ const tk=()=>{if(view!=="simulado"||!sim){return}const r=Math.max(0,s.fim-Date.now());$("#timer").textContent="⏱ "+[r/3600e3|0,(r/6e4|0)%60,(r/1e3|0)%60].map(x=>String(x).padStart(2,"0")).join(":");if(!r){s.done=true;result()}else setTimeout(tk,1000)};tk();
+ $("#fim").onclick=()=>{if(confirm("Finalizar o simulado?")){s.done=true;result()}};$("#canc").onclick=()=>{if(confirm("Cancelar e perder as respostas?")){sim=null;simulado()}}}
+function result(){const s=sim;let ok=0;const por={};s.L.forEach((q,i)=>{const c=s.ans[i]===q.gabarito;if(c)ok++;if(s.ans[i])save(q.id,c);por[q.disciplina]=por[q.disciplina]||[0,0];por[q.disciplina][1]++;if(c)por[q.disciplina][0]++});
+ app.innerHTML=AVISO+`<h2>Resultado</h2><p style="font-size:22px"><b>${ok}</b> de ${s.L.length} (${(100*ok/s.L.length).toFixed(0)}%)</p><table>`+Object.entries(por).map(([d,v])=>`<tr><td>${DISCS[d]}</td><td>${v[0]}/${v[1]}</td></tr>`).join("")+`</table><h3>Revisão</h3><div id="rev"></div><button class="btn pri" id="novo">Novo simulado</button>`;
+ $("#rev").innerHTML=s.L.map((q,i)=>qHTML(q,i)).join("");$("#rev").querySelectorAll(".q").forEach((b,i)=>{reveal(b,s.L[i],s.ans[i])});$("#novo").onclick=()=>{sim=null;simulado()}}
+function desempenho(){const h=st(),by={},tp={};DB.forEach(q=>{if(q.id in h){const a=by[q.disciplina]=by[q.disciplina]||[0,0];a[1]++;a[0]+=h[q.id];const k=q.disciplina+"|"+q.topico,b=tp[k]=tp[k]||[0,0];b[1]++;b[0]+=h[q.id]}});
+ const row=(n,v)=>`<tr><td>${esc(n)}</td><td>${v[0]}/${v[1]}</td><td style="width:35%"><div class="bar"><i style="width:${100*v[0]/v[1]}%"></i></div></td></tr>`;
+ app.innerHTML=AVISO+`<h2>Meu desempenho</h2><p>Salvo apenas neste navegador.</p><h3>Por disciplina</h3><table>${Object.entries(by).map(([d,v])=>row(DISCS[d],v)).join("")||"<tr><td>Nenhuma questão respondida ainda.</td></tr>"}</table><h3>Por tópico</h3><table>${Object.entries(tp).sort((a,b)=>a[1][0]/a[1][1]-b[1][0]/b[1][1]).map(([k,v])=>row(k.replace("|"," · "),v)).join("")}</table><p><button class="btn" id="zera">Apagar meu histórico</button></p>`;
+ $("#zera").onclick=()=>{if(confirm("Apagar tudo?")){localStorage.removeItem("hist");desempenho()}}}
+function banco(){const c={};DB.forEach(q=>{const k=q.disciplina+"|"+q.topico;c[k]=(c[k]||0)+1});
+ app.innerHTML=AVISO+`<h2>Banco de questões · ${DB.length} no total</h2><table>`+Object.entries(c).sort().map(([k,v])=>`<tr><td>${DISCS[k.split("|")[0]]}</td><td>${esc(k.split("|")[1])}</td><td>${v}</td></tr>`).join("")+"</table>"}
+document.querySelectorAll("nav button[data-v]").forEach(b=>b.onclick=()=>nav(b.dataset.v));
+$("#tema").onclick=()=>{const d=document.documentElement.dataset.theme==="dark"?"light":"dark";document.documentElement.dataset.theme=d;try{localStorage.setItem("tema",d)}catch(e){}};
+document.documentElement.dataset.theme=localStorage.getItem("tema")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
+fetch("questoes.json").then(r=>r.json()).then(j=>{DB=j.questoes;T=j.textos;DB.forEach(q=>{if(q.texto_id&&!T[q.texto_id])T[q.texto_id]=""});nav("inicio")}).catch(e=>{app.innerHTML="<p>Erro ao carregar questões. Abra pelo link publicado (não direto do arquivo).</p>"});
+</script>
+</body>
+</html>
